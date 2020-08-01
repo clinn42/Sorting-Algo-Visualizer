@@ -70,12 +70,16 @@ public class SortContr implements Initializable {
     @FXML
     private HBox debug;
 
+    @FXML
+    private Label msgbox;
+
 
     @FXML
     void genNewArray(MouseEvent event) {
         sortBox.setDisable(false);
         displayBox.getChildren().clear();
         int arrsize = (int) barNumSlider.getValue();
+        msgbox.setText(String.valueOf(arrsize));
         valueArray = new ArrayList<>();
         MakeBar tempm;
 
@@ -186,27 +190,27 @@ public class SortContr implements Initializable {
 
         switch (sortChoice) {
             case 1:
-                rate = 1.5/barNumSlider.getValue();
+                rate = 1.5/(int)barNumSlider.getValue();
                 sorter = new SortingFuncs(valueArray,rate);
                 sorter.insertion();
 
                 finEffect(sorter);
                 break;
             case 2:
-                rate = 1/barNumSlider.getValue();
+                rate = 1.0/(int)barNumSlider.getValue();
                 sorter = new SortingFuncs(valueArray,rate);
                 sorter.selection();
 
                 finEffect(sorter);
                 break;
             case 3:
-                rate = 3/barNumSlider.getValue();
+                rate = 3.0/(int)barNumSlider.getValue();
                 sorter = new SortingFuncs(valueArray,rate);
                 sorter.mergeInit();
                 finEffect(sorter);
                 break;
             case 4:
-                rate =3/barNumSlider.getValue();
+                rate =3.0/(int)barNumSlider.getValue();
                 sorter = new SortingFuncs(valueArray,rate);
                 sorter.quick();
                 finEffect(sorter);
@@ -232,6 +236,7 @@ public class SortContr implements Initializable {
                 sortBox.setDisable(false);
                 displayBox.getChildren().clear();
                 int arrsize = newValue.intValue();
+                msgbox.setText(String.valueOf(arrsize));
                 valueArray = new ArrayList<>();
                 MakeBar tempm;
 
