@@ -1,21 +1,18 @@
-import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 
 import javafx.util.Duration;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SortingFuncs {
 
     private SequentialTransition seq;
-    private MakeBar[] varr;
+    private ArrayList<MakeBar> varr;
     private double rate;
 
-    public SortingFuncs(MakeBar[] varr, double rate) {
+    public SortingFuncs(ArrayList<MakeBar> varr, double rate) {
         this.varr = varr;
         this.rate = rate;
         this.seq = new SequentialTransition();
@@ -38,9 +35,9 @@ public class SortingFuncs {
     }
 
     private double[] getHeights() {
-        double[] heights = new double[varr.length];
-        for (int m=0;m<varr.length;m++) {
-            heights[m] = varr[m].retHeight();
+        double[] heights = new double[varr.size()];
+        for (int m=0;m<varr.size();m++) {
+            heights[m] = varr.get(m).retHeight();
         }
         return heights;
     }
@@ -53,7 +50,7 @@ public class SortingFuncs {
 
         /*Timeline firstVal = new Timeline(new KeyFrame(Duration.seconds(rate),event -> varr[0].greenInserted()));
         seq.getChildren().add(firstVal);//first value is always sorted*/
-        seq.getChildren().add(varr[0].blink(rate,"GREEN","GREEN"));
+        seq.getChildren().add(varr.get(0).blink(rate,"GREEN","GREEN"));
 
         for (int i=1;i<hvalues.length;i++) {
             int j = i;
@@ -61,7 +58,7 @@ public class SortingFuncs {
             /*int firstJ = j;
             Timeline makeActive = new Timeline(new KeyFrame(Duration.seconds(rate), event -> varr[firstJ].redActive()));
             seq.getChildren().add(makeActive);*/
-            seq.getChildren().add(varr[j].blink(rate,"RED","RED"));
+            seq.getChildren().add(varr.get(j).blink(rate,"RED","RED"));
 
             while (hvalues[j] < hvalues[j-1]) {
 
@@ -76,8 +73,8 @@ public class SortingFuncs {
                     varr[finalJ].modifyHeight(swap2);
                 }));
                 seq.getChildren().add(swapSeq);*/
-                Timeline swapFrame = varr[j].swapOne(rate,"GREEN","GREEN",swap2);
-                swapFrame.getKeyFrames().addAll(varr[j-1].swapOne(rate,"RED","RED",swap1).getKeyFrames());
+                Timeline swapFrame = varr.get(j).swapOne(rate,"GREEN","GREEN",swap2);
+                swapFrame.getKeyFrames().addAll(varr.get(j-1).swapOne(rate,"RED","RED",swap1).getKeyFrames());
                 seq.getChildren().add(swapFrame);
 
                 hvalues[j] = swap2;
@@ -94,7 +91,7 @@ public class SortingFuncs {
                 System.out.println("Inserted at:" + seq.getCurrentTime());
             }));
             seq.getChildren().add(finPos);*/
-            seq.getChildren().add(varr[j].blink(rate,"GREEN","GREEN"));
+            seq.getChildren().add(varr.get(j).blink(rate,"GREEN","GREEN"));
 
         }
     }
@@ -102,13 +99,13 @@ public class SortingFuncs {
     public void selection() {
         System.out.println(rate);
 
-        int len = varr.length;
+        int len = varr.size();
         double[] hvalues = getHeights();
 
         for (int i=0;i<len-1;i++) {
 
             int smi = i;
-            seq.getChildren().add(varr[i].blink(rate,"1","1"));
+            seq.getChildren().add(varr.get(i).blink(rate,"1","1"));
 
             Timeline compare;
             for (int j=i+1;j<len;j++) {
@@ -116,8 +113,8 @@ public class SortingFuncs {
                 //compare -> Makes red
 
                 if (hvalues[j] < hvalues[smi]) {
-                    compare = varr[smi].blink(rate,"1","BLUE");
-                    compare.getKeyFrames().addAll(varr[j].blink(rate,"RED","1").getKeyFrames());
+                    compare = varr.get(smi).blink(rate,"1","BLUE");
+                    compare.getKeyFrames().addAll(varr.get(j).blink(rate,"RED","1").getKeyFrames());
                     seq.getChildren().add(compare);
 
                     if (j == len -1) {
@@ -126,7 +123,7 @@ public class SortingFuncs {
                     smi = j;
 
                 } else {
-                    compare = varr[j].blink(rate,"RED","BLUE");
+                    compare = varr.get(j).blink(rate,"RED","BLUE");
                     seq.getChildren().add(compare);
                 }
 
@@ -141,8 +138,8 @@ public class SortingFuncs {
             hvalues[i] = s2;
             hvalues[smi] = s1;
 
-            Timeline swap = varr[smi].swapOne(rate,"BLUE","BLUE",s1);
-            swap.getKeyFrames().addAll(varr[i].swapOne(rate,"GREEN","GREEN",s2).getKeyFrames());
+            Timeline swap = varr.get(smi).swapOne(rate,"BLUE","BLUE",s1);
+            swap.getKeyFrames().addAll(varr.get(i).swapOne(rate,"GREEN","GREEN",s2).getKeyFrames());
             seq.getChildren().add(swap);
 
             /*int finalI = i;
@@ -159,7 +156,7 @@ public class SortingFuncs {
 
         /*Timeline lastSorted = new Timeline(new KeyFrame(Duration.seconds(rate), event -> varr[len - 1].greenInserted()));
         seq.getChildren().add(lastSorted);*/
-        seq.getChildren().add(varr[len-1].blink(rate,"GREEN","GREEN"));
+        seq.getChildren().add(varr.get(len-1).blink(rate,"GREEN","GREEN"));
 
     }
 
@@ -191,8 +188,8 @@ public class SortingFuncs {
         System.arraycopy(arr,l,left,0,n1);
         System.arraycopy(arr,m+1,right,0,n2);
 
-        Timeline bounds = varr[m].blink(rate,"2","2");
-        bounds.getKeyFrames().addAll(varr[r].blink(rate,"2","2").getKeyFrames());
+        Timeline bounds = varr.get(m).blink(rate,"2","2");
+        bounds.getKeyFrames().addAll(varr.get(r).blink(rate,"2","2").getKeyFrames());
         seq.getChildren().add(bounds);
 
         int k=l,i=0,j=0;
@@ -204,31 +201,31 @@ public class SortingFuncs {
             if (left[i] < right[j]) {
                 arr[k] = left[i];
                 newHeightMod = left[i];
-                seq.getChildren().add(varr[l+i].blink(rate,"RED","BLUE"));
+                seq.getChildren().add(varr.get(l+i).blink(rate,"RED","BLUE"));
                 i++;
             } else {
                 arr[k] = right[j];
                 newHeightMod = right[j];
-                seq.getChildren().add(varr[m+1+j].blink(rate,"RED","BLUE"));
+                seq.getChildren().add(varr.get(m+1+j).blink(rate,"RED","BLUE"));
                 j++;
             }
             /*int finalK1 = k;
             tim = new Timeline(new KeyFrame(Duration.ONE, event -> varr[finalK1].modifyHeight(newHeightMod)));
             tim.getKeyFrames().addAll(varr[k].blink(rate,"GREEN","BLUE").getKeyFrames());*/
-            heightMods.add(varr[k].swapOne(rate,"GREEN","BLUE",newHeightMod));
+            heightMods.add(varr.get(k).swapOne(rate,"GREEN","BLUE",newHeightMod));
             k++;
         }
 
         while (i<n1){
             arr[k] = left[i];
             double newHeightMod = left[i];
-            seq.getChildren().add(varr[l+i].blink(rate,"RED","BLUE"));
+            seq.getChildren().add(varr.get(l+i).blink(rate,"RED","BLUE"));
 
             /*int finalK1 = k;
             tim = new Timeline(new KeyFrame(Duration.ONE, event -> varr[finalK1].modifyHeight(newHeightMod)));
             tim.getKeyFrames().addAll(varr[k].blink(rate,"GREEN","BLUE").getKeyFrames());
             heightMods.add(tim);*/
-            heightMods.add(varr[k].swapOne(rate,"GREEN","BLUE",newHeightMod));
+            heightMods.add(varr.get(k).swapOne(rate,"GREEN","BLUE",newHeightMod));
 
             i++; k++;
         }
@@ -236,13 +233,13 @@ public class SortingFuncs {
         while (j<n2) {
             arr[k] = right[j];
             double newHeightMod = right[j];
-            seq.getChildren().add(varr[m+1+j].blink(rate,"RED","BLUE"));
+            seq.getChildren().add(varr.get(m+1+j).blink(rate,"RED","BLUE"));
 
             /*int finalK1 = k;
             tim = new Timeline(new KeyFrame(Duration.ONE, event -> varr[finalK1].modifyHeight(newHeightMod)));
             tim.getKeyFrames().addAll(varr[k].blink(rate,"GREEN","BLUE").getKeyFrames());
             heightMods.add(tim);*/
-            heightMods.add(varr[k].swapOne(rate,"GREEN","BLUE",newHeightMod));
+            heightMods.add(varr.get(k).swapOne(rate,"GREEN","BLUE",newHeightMod));
 
             j++; k++;
         }
@@ -268,7 +265,7 @@ public class SortingFuncs {
         }
     }
 
-    private int quickPartition(double[] arr, int l,int r) {
+    /*private int quickPartition(double[] arr, int l,int r) {
         int bound = l;
         int pivot = r--;
         double temp;
@@ -277,35 +274,6 @@ public class SortingFuncs {
         seq.getChildren().add(varr[pivot].blink(rate,"2","2"));
 
         while (true) {
-            /*while (arr[r]>arr[pivot] && r!=pivot){
-                r--;
-            }
-            if (r==pivot) {
-                flag = false;
-            } else {
-                temp = arr[pivot];
-                arr[pivot] = arr[r];
-                varr[pivot].modifyHeight(arr[r]);
-                arr[r] = temp;
-                varr[r].modifyHeight(temp);
-                pivot = r;
-            }
-
-            if (flag) {
-                while (arr[l]<arr[pivot] && l!=pivot){
-                    l++;
-                }
-                if (l==pivot) {
-                    flag = false;
-                } else {
-                    temp = arr[pivot];
-                    arr[pivot] = arr[l];
-                    varr[pivot].modifyHeight(arr[l]);
-                    arr[l] = temp;
-                    varr[l].modifyHeight(temp);
-                    pivot = l;
-                }
-            }*/
             while(arr[l]<arr[pivot]) {
                 seq.getChildren().add(varr[l].blink(rate,"RED","BLUE"));
                 l++;
@@ -317,7 +285,6 @@ public class SortingFuncs {
                 r--;
             }
             seq.getChildren().add(varr[r].blink(rate,"3","3"));
-            //seq.getChildren().add(new PauseTransition(Duration.seconds(rate)));
 
             if (l>=r) {
                 break;
@@ -346,7 +313,7 @@ public class SortingFuncs {
         arr[pivot] = s1;
 
         return l;
-    }
+    }*/
 
     private int quickP(double[] arr,int l, int r) {
         double pivot = arr[r];
@@ -355,7 +322,7 @@ public class SortingFuncs {
         Timeline swap;
         Timeline comp;
 
-        seq.getChildren().add(varr[r].blink(rate,"2","2"));
+        seq.getChildren().add(varr.get(r).blink(rate,"2","2"));
 
         for (int j=l;j<r;j++) {
 
@@ -365,43 +332,43 @@ public class SortingFuncs {
                 i++;
 
                 if (i!=l)
-                    comp.getKeyFrames().addAll(varr[i-1].blink(rate,"1","BLUE").getKeyFrames());
+                    comp.getKeyFrames().addAll(varr.get(i-1).blink(rate,"1","BLUE").getKeyFrames());
 
                 if (i!=j) {
-                    comp.getKeyFrames().addAll(varr[j].blink(rate,"RED","RED").getKeyFrames());
+                    comp.getKeyFrames().addAll(varr.get(j).blink(rate,"RED","RED").getKeyFrames());
                     seq.getChildren().add(comp);
 
-                    seq.getChildren().add(varr[i].blink(rate,"1","1"));
+                    seq.getChildren().add(varr.get(i).blink(rate,"1","1"));
 
                     temp = arr[i];
                     arr[i] = arr[j];
-                    swap = varr[i].swapOne(rate,"1","1",arr[j]);
+                    swap = varr.get(i).swapOne(rate,"1","1",arr[j]);
 
                     arr[j] = temp;
-                    swap.getKeyFrames().addAll(varr[j].swapOne(rate,"RED","BLUE",temp).getKeyFrames());
+                    swap.getKeyFrames().addAll(varr.get(j).swapOne(rate,"RED","BLUE",temp).getKeyFrames());
                     seq.getChildren().add(swap);
 
                 } else {
-                    comp.getKeyFrames().addAll(varr[j].blink(rate,"RED","1").getKeyFrames());
+                    comp.getKeyFrames().addAll(varr.get(j).blink(rate,"RED","1").getKeyFrames());
                     seq.getChildren().add(comp);
                 }
             } else {
-                seq.getChildren().add(varr[j].blink(rate,"RED","BLUE"));
+                seq.getChildren().add(varr.get(j).blink(rate,"RED","BLUE"));
             }
         }
 
         i++;
-        comp = varr[i].blink(rate,"1","1");
+        comp = varr.get(i).blink(rate,"1","1");
         if (i!=l)
-            comp.getKeyFrames().addAll(varr[i-1].blink(rate,"BLUE","BLUE").getKeyFrames());
+            comp.getKeyFrames().addAll(varr.get(i-1).blink(rate,"BLUE","BLUE").getKeyFrames());
         seq.getChildren().add(comp);
 
         temp = arr[r];
         arr[r] = arr[i];
-        swap = varr[r].swapOne(rate,"BLUE","BLUE",arr[i]);
+        swap = varr.get(r).swapOne(rate,"BLUE","BLUE",arr[i]);
 
         arr[i] = temp;
-        swap.getKeyFrames().addAll(varr[i].swapOne(rate,"GREEN","GREEN",temp).getKeyFrames());
+        swap.getKeyFrames().addAll(varr.get(i).swapOne(rate,"GREEN","GREEN",temp).getKeyFrames());
         seq.getChildren().add(swap);
 
         return i;

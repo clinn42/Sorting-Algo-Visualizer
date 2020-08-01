@@ -18,13 +18,15 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class SortContr implements Initializable {
 
-    static MakeBar[] valueArray;
+    //static MakeBar[] valueArray;
+    static ArrayList<MakeBar> valueArray;
 
     private static final Random random = new Random();
     static int sortChoice = 0;
@@ -74,11 +76,16 @@ public class SortContr implements Initializable {
         sortBox.setDisable(false);
         displayBox.getChildren().clear();
         int arrsize = (int) barNumSlider.getValue();
-        valueArray = new MakeBar[arrsize];
+        valueArray = new ArrayList<>();
+        MakeBar tempm;
 
         for (int i=0;i<arrsize;i++) {
-            valueArray[i] = new MakeBar(random.nextInt(500));
-            displayBox.getChildren().add(valueArray[i].getBar());
+            /*valueArray[i] = new MakeBar(random.nextInt(500));
+            displayBox.getChildren().add(valueArray[i].getBar());*/
+            tempm = new MakeBar(random.nextInt(500));
+            valueArray.add(tempm);
+            displayBox.getChildren().add(tempm.getBar());
+
         }
     }
 
@@ -130,31 +137,20 @@ public class SortContr implements Initializable {
     void finEffect(SortingFuncs sorted) {
         double rate = Math.min(sorted.getRate(), 0.25);
         SequentialTransition finalSeq = sorted.getSeq();
+        Timeline tim;
 
-        for (int m=0;m<valueArray.length;m++) {
+        for (int m=0;m<valueArray.size()-1;m++) {
             int finalM = m;
-            Timeline tim = new Timeline(new KeyFrame(Duration.seconds(rate), event -> {
-                valueArray[finalM].purpleSorted();
-
-                System.out.println(finalSeq.getCurrentTime());
-                if (finalM == valueArray.length - 1) {
-                    sortBox.getChildren().get(sortChoice-1).setStyle("");
-                    sortChoice = 0;
-                    topBox.setDisable(false);
-                }
-            }));
+            tim = new Timeline(new KeyFrame(Duration.seconds(rate), event -> valueArray.get(finalM).purpleSorted()));
             finalSeq.getChildren().add(tim);
-            //System.out.println("Done "+finalM);
-            /*KeyFrame keff = new KeyFrame(Duration.seconds(time), evt -> {
-                valueArray[finalM].purpleSorted();
-                if (finalM == valueArray.length - 1) {
-                    sortBox.setDisable(false);
-                    topBox.setDisable(false);
-                }
-            });
-            time += rate;
-            SortingFuncs.sortAnima.getKeyFrames().add(keff);*/
         }
+
+        finalSeq.getChildren().add(new Timeline(new KeyFrame(Duration.seconds(rate), event -> {
+            valueArray.get(valueArray.size()-1).purpleSorted();
+            //sortBox.getChildren().get(sortChoice-1).setStyle("");
+            sortChoice = 0;
+            topBox.setDisable(false);
+        })));
         finalSeq.play();
     }
 
@@ -236,11 +232,14 @@ public class SortContr implements Initializable {
                 sortBox.setDisable(false);
                 displayBox.getChildren().clear();
                 int arrsize = newValue.intValue();
-                valueArray = new MakeBar[arrsize];
+                valueArray = new ArrayList<>();
+                MakeBar tempm;
 
                 for (int i=0;i<arrsize;i++) {
-                    valueArray[i] = new MakeBar(random.nextInt(500));
-                    displayBox.getChildren().add(valueArray[i].getBar());
+
+                    tempm = new MakeBar(random.nextInt(500));
+                    valueArray.add(tempm);
+                    displayBox.getChildren().add(tempm.getBar());
 
                 }
             }
