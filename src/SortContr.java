@@ -222,12 +222,6 @@ public class SortContr implements Initializable {
                 rate =0;
                 break;
         }
-         /*Insertion: 1:39.82(1.5/)
-        Selection: 2:06.61(1/) without counting lag bug
-        Quick:
-        Merge:
-        Radix:
-        Heap:*/
         vizButton.setDisable(true);
 
 
