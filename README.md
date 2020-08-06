@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Sorting Algorithm Visualizer
 
 A Java application used to visualize different sorting algorithms. Randomly generated values represented by bars of respective height are sorted by the available algorithm to visualize and better understand the algorithm/process.
@@ -21,3 +22,8 @@ Requirements:
 * [Java 8](https://openjdk.java.net/install/)
 * JavaFX
 * [SceneBuilder](https://gluonhq.com/products/scene-builder/)
+=======
+# Sorting Algorithm Visualizer
+
+Visualization of different sorting Algorithms in Java.
+>>>>>>> 559763aa9889fe630a36a11628f5633960331b81
