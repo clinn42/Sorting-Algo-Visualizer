@@ -46,7 +46,7 @@
             </HBox>
          </children>
       </GridPane>
-      <GridPane fx:id="sortBox" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #34495e;">
+      <GridPane fx:id="sortBox" disable="true" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #34495e;">
         <columnConstraints>
             <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="30.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
