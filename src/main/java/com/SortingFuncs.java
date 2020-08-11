@@ -1,3 +1,5 @@
+package com;
+
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;

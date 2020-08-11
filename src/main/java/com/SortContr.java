@@ -1,4 +1,4 @@
-/**
+package com; /**
  * Sample Skeleton for 'template.fxml' Controller Class
  */
 
@@ -8,20 +8,17 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class SortContr implements Initializable {
 
