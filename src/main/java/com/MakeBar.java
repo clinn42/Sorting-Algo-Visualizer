@@ -34,13 +34,13 @@ public class MakeBar {
     }
 
 
-    Timeline blink(double rate, String firsColor, String secColor) {
+    public Timeline blink(double rate, String firsColor, String secColor) {
         KeyFrame red = new KeyFrame(Duration.ONE, event -> this.setColor(firsColor));
         KeyFrame afterBlink = new KeyFrame(Duration.seconds(rate), event -> this.setColor(secColor));
         return new Timeline(red, afterBlink);
     }
 
-    Timeline swapOne(double rate, String c1, String c2, double height) {
+    public Timeline swapOne(double rate, String c1, String c2, double height) {
         Timeline s1 = new Timeline(new KeyFrame(Duration.ONE, event -> this.modifyHeight(height)));
         s1.getKeyFrames().addAll(this.blink(rate, c1, c2).getKeyFrames());
         return s1;
