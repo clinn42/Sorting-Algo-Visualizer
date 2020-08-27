@@ -1,27 +1,28 @@
-/**
+package com; /**
  * Sample Skeleton for 'template.fxml' Controller Class
  */
 
+import com.funcs.Insertion;
+import com.funcs.MergeSort;
+import com.funcs.QuickSort;
+import com.funcs.Selection;
 import javafx.animation.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class SortContr implements Initializable {
 
@@ -153,28 +154,28 @@ public class SortContr implements Initializable {
         switch (sortChoice) {
             case 1:
                 rate = 1.5 / barval;
-                sorter = new SortingFuncs(valueArray, rate);
-                sorter.insertion();
-
+                sorter = new Insertion(valueArray,rate);
+                ((Insertion)sorter).insertion();// ONLY TEMPORARY CHANGE WHEN ADDING THREAD
                 finalseq = sorter.finEffect();
+
                 break;
             case 2:
                 rate = 1.0 / barval;
-                sorter = new SortingFuncs(valueArray, rate);
-                sorter.selection();
-
+                sorter = new Selection(valueArray,rate);
+                ((Selection)sorter).selection();
                 finalseq = sorter.finEffect();
+
                 break;
             case 3:
                 rate = 3.0 / barval;
-                sorter = new SortingFuncs(valueArray, rate);
-                sorter.mergeInit();
+                sorter = new MergeSort(valueArray,rate);
+                ((MergeSort)sorter).mergeInit();
                 finalseq = sorter.finEffect();
                 break;
             case 4:
                 rate = 3.0 / barval;
-                sorter = new SortingFuncs(valueArray, rate);
-                sorter.quick();
+                sorter = new QuickSort(valueArray,rate);
+                ((QuickSort)sorter).quick();
                 finalseq = sorter.finEffect();
                 break;
             case 5:
@@ -191,6 +192,7 @@ public class SortContr implements Initializable {
 
 
     }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
